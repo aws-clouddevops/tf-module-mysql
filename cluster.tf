@@ -20,7 +20,7 @@ resource "aws_db_instance" "mysql" {
 resource "aws_db_parameter_group" "mysql" {
   name   = "roboshop-mysql-${var.Env}"
   family = "mysql5.7"
-
+}
 # Creates DB subnet Group
 
 resource "aws_db_subnet_group" "default" {
@@ -39,16 +39,16 @@ resource "aws_db_subnet_group" "default" {
    description = "roboshop-mysql-${var.ENV}"
    vpc_id      = data.terraform_remote_state.vpc.outputs.VPC_ID
 
-   ingress {
-     description      = "Allow mysql Connection from default vpc"
-     from_port        = 3306
-     to_port          = 3306
-     protocol         = "tcp"
-     cidr_blocks      = [data.terraform_remote_state.vpc.outputs.DEFAULT_VPC_CIDR]
-   }
+  ingress {
+    description      = "Allow mysql Connection from default vpc"
+    from_port        = 3306
+    to_port          = 3306
+    protocol         = "tcp"
+    cidr_blocks      = [data.terraform_remote_state.vpc.outputs.DEFAULT_VPC_CIDR]
+  }
 
    ingress {
-     description      = "Allow remysqldis Connection from Private vpc"
+     description      = "Allow mysql Connection from Private vpc"
      from_port        = 3306
      to_port          = 3306
      protocol         = "tcp"
