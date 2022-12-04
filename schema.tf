@@ -1,4 +1,4 @@
-resource "null_resource" "cluster" {
+resource "null_resource" "mysql-schema" {
   depends_on = [aws_db_instance.mysql]
   provisioner "local-exec" {
     command = <<EOF
