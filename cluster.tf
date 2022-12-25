@@ -2,10 +2,10 @@
 
 resource "aws_db_instance" "mysql" {
   identifier             = "roboshop-mysql-${var.ENV}"
-  allocated_storage      = 10
+  allocated_storage      = var.MYSQL_STORAGE
   engine                 = "mysql"
-  engine_version         = "5.7"
-  instance_class         = "db.t3.micro"
+  engine_version         = var.MYSQL_ENGINE_VERSION
+  instance_class         = var.MYSQL_INSTANCE_CLASS
   db_name                = "dummy"
   username               = "admin1"
   password               = "RoboShop1"
@@ -41,16 +41,16 @@ resource "aws_db_subnet_group" "mysql" {
 
   ingress {
     description      = "Allow mysql Connection from default vpc"
-    from_port        = 3306
-    to_port          = 3306
+    from_port        = var.MYSQL_PORT_NUMBER
+    to_port          = var.MYSQL_PORT_NUMBER
     protocol         = "tcp"
     cidr_blocks      = [data.terraform_remote_state.vpc.outputs.DEFAULT_VPC_CIDR]
   }
 
    ingress {
      description      = "Allow mysql Connection from Private vpc"
-     from_port        = 3306
-     to_port          = 3306
+     from_port        = var.MYSQL_PORT_NUMBER
+     to_port          = var.MYSQL_PORT_NUMBER
      protocol         = "tcp"
      cidr_blocks      = [data.terraform_remote_state.vpc.outputs.VPC_CIDR]
    }
