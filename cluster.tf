@@ -7,8 +7,8 @@ resource "aws_db_instance" "mysql" {
   engine_version         = var.MYSQL_ENGINE_VERSION
   instance_class         = var.MYSQL_INSTANCE_CLASS
   db_name                = "dummy"
-  username               = "admin1"
-  password               = "RoboShop1"
+  username               = jsondecode(data.aws_secretsmanager_secret_version.secrets.secret_string)["MYSQL_USERNAME"]
+  password               = jsondecode(data.aws_secretsmanager_secret_version.secrets.secret_string)["MYSQL_PASSWORD"]
   parameter_group_name   = aws_db_parameter_group.mysql.name
   skip_final_snapshot    = true    # True only for non prod work loads
   db_subnet_group_name   = aws_db_subnet_group.mysql.name
